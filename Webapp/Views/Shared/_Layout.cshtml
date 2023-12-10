@@ -42,6 +42,8 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <div>@TempData["success"]</div>
+            <div>@TempData["error"]</div>
             @RenderBody()
         </main>
     </div>

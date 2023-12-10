@@ -29,7 +29,9 @@
                 <td>
                     <div class="btn-group">
                         <a asp-controller="Category" asp-action="UpdateCategory" asp-route-id=@obj.CategoryId class="btn btn-warning">Update</a>
-                        <a asp-controller="Category" asp-action="DeleteCategory" asp-route-id=@obj.CategoryId class="btn btn-danger">Delete</a>
+                        <form asp-action="DeleteCategory" asp-route-id=@obj.CategoryId method="post">
+                        <button class="btn btn-danger" onclick="return confirm('Are you Sure?')">Delete</button>
+                        </form>
                     </div>
                 </td>
             </tr>

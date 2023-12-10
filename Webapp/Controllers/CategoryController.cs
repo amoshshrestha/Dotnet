@@ -73,6 +73,7 @@ namespace Webapp.Controllers
         [ActionName("DeleteCategory")]
         public IActionResult Delete_Category(int id)
         {
+                CategoryModel categoryObj = _db.Categories.Find(id);
             if (id == 0)
             {
                 return NotFound();
@@ -80,9 +81,8 @@ namespace Webapp.Controllers
             }
             else
             {
-                CategoryModel categoryObj = _db.Categories.Find(id);
-                _db.Remove(categoryObj);
-
+                _db.Categories.Remove(categoryObj);
+                _db.SaveChanges();
                 TempData["Success"] = "Category Removed successfully";
                 return RedirectToAction("Index");
             }
