@@ -1,0 +1,19 @@
+﻿@model CategoryModel
+@{
+    ViewData["Title"] = "UpdateCategory";
+}
+
+<h2>Update Category</h2>
+<div asp-validation-summary="All"></div>
+<form class="w-50 border border-3 p-5 rounded rounded-3" method="post" action="UpdateCategory">
+    <input type="hidden" asp-for="CategoryId" />
+    <label asp-for="CategoryName"></label>
+    <input asp-for="CategoryName" class="form-control" />
+    <button class="btn btn-success w-100 btn-sm mt-2">Update Category</button>
+    <span asp-validation-for="CategoryName" class="text-danger fs-6"></span>
+</form>
+
+@* client side validation *@
+@section Scripts {
+    <Partial name="_ValidationScriptsPartial" />
+}
