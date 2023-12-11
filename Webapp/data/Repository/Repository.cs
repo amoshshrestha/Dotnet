@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using Webapp.data.Repository.IRepository;
 
 namespace Webapp.data.Repository
@@ -27,19 +28,25 @@ namespace Webapp.data.Repository
             _dbSet.RemoveRange(entities);
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null)
         {
-            return _dbSet;
+            IQueryable<T> query = _dbSet;
+            if(filter != null)
+            {
+                query =query.Where(filter);
+            }
+            return query;
         }
 
-        public T GetById(int id)
+        public T FirstOrDefault(Expression<Func<T,bool> > expr)
         {
-            return _dbSet.Find(id);
+            return _dbSet.FirstOrDefault(expr);
         }
 
-        public void Update(T entity)
+       
+        public void save()
         {
-            _dbSet.Update(entity);
+            _db.SaveChanges();
         }
     }
 }
