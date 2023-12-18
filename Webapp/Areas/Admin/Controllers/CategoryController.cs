@@ -4,8 +4,9 @@ using Webapp.data;
 using Webapp.data.Repository.IRepository;
 using Webapp.Models;
 
-namespace Webapp.Controllers
+namespace Webapp.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         /* private readonly ApplicationDbContext _db;*/
@@ -22,7 +23,7 @@ namespace Webapp.Controllers
         {
             /*IEnumerable<CategoryModel> categories = _db.Categories;*/
             /*IEnumerable<CategoryModel> categories = _db.GetAll();*/
-            IEnumerable<CategoryModel> categories =_db.Category.GetAll();
+            IEnumerable<CategoryModel> categories = _db.Category.GetAll();
 
             return View(categories);
         }
@@ -35,9 +36,9 @@ namespace Webapp.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(categoryObj.CategoryName.ToLower() == "test")
+                if (categoryObj.CategoryName.ToLower() == "test")
                 {
-                    ModelState.AddModelError("Category","Test is not a valid category");
+                    ModelState.AddModelError("Category", "Test is not a valid category");
                     return View(categoryObj);
                 }
                 /*_db.Categories.Add(categoryObj);
@@ -53,10 +54,10 @@ namespace Webapp.Controllers
             }
         }
         [HttpGet]
-        public IActionResult UpdateCategory( int id) 
+        public IActionResult UpdateCategory(int id)
         {
             /*CategoryModel categoryObj =_db.Categories.Find(id);*/
-            CategoryModel categoryObj = _db.Category.FirstOrDefault(u=>u.CategoryId==id);
+            CategoryModel categoryObj = _db.Category.FirstOrDefault(u => u.CategoryId == id);
 
             return View(categoryObj);
         }
@@ -75,14 +76,14 @@ namespace Webapp.Controllers
             }
             else
             {
-                return View(categoryObj) ;
+                return View(categoryObj);
             }
         }
         [HttpGet]
         public IActionResult DeleteCategory(int id)
         {
             /*CategoryModel categoryObj = _db.Categories.Find(id);*/
-            CategoryModel categoryObj = _db.Category.FirstOrDefault(u=>u.CategoryId==id);
+            CategoryModel categoryObj = _db.Category.FirstOrDefault(u => u.CategoryId == id);
             return View(categoryObj);
         }
         [HttpPost]
@@ -93,7 +94,7 @@ namespace Webapp.Controllers
             if (id == 0)
             {
                 return NotFound();
-                
+
             }
             else
             {
@@ -102,8 +103,8 @@ namespace Webapp.Controllers
                 TempData["Success"] = "Category Removed successfully";
                 return RedirectToAction("Index");
             }
-            
-          
+
+
         }
     }
 }

@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Webapp.data.Repository.IRepository;
 using Webapp.Models;
 
-namespace Webapp.Controllers
+namespace Webapp.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _db;
@@ -21,22 +22,23 @@ namespace Webapp.Controllers
             return View(products);
         }
         [HttpGet]
-        public IActionResult UpsertProduct(int?id)
+        public IActionResult UpsertProduct(int? id)
         {
             ProductViewModel productviewmodel;
             IEnumerable<SelectListItem> categoryList = _db.Category.GetAll()
                 .Select(u => new SelectListItem
                 {
                     Text = u.CategoryName,
-                    Value=u.CategoryId.ToString()
+                    Value = u.CategoryId.ToString()
                 });
-            if(id==0 || id == null) { 
-            productviewmodel = new ProductViewModel()
+            if (id == 0 || id == null)
             {
+                productviewmodel = new ProductViewModel()
+                {
 
-                product = new Product(),
-                categoryList = categoryList
-            };
+                    product = new Product(),
+                    categoryList = categoryList
+                };
             }
             else
             {
@@ -49,36 +51,37 @@ namespace Webapp.Controllers
             return View(productviewmodel);
         }
         [HttpPost]
-        public IActionResult UpsertProduct(ProductViewModel productVM,IFormFile? file)
+        public IActionResult UpsertProduct(ProductViewModel productVM, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
                 string wwwRoot = _webHostEnvironment.WebRootPath;
                 if (file != null)
                 {
-                    string filename =Guid.NewGuid().ToString()+Path.GetFileName(file.FileName);
-                    string filepath= Path.Combine(wwwRoot,@"Images\Products",filename);
-                    if(!string.IsNullOrEmpty(productVM.product.ImageUrl))
+                    string filename = Guid.NewGuid().ToString() + Path.GetFileName(file.FileName);
+                    string filepath = Path.Combine(wwwRoot, @"Images\Products", filename);
+                    if (!string.IsNullOrEmpty(productVM.product.ImageUrl))
                     {
 
-                    var oldFilePath = Path.Combine(wwwRoot, productVM.product.ImageUrl).TrimStart('\\');
-                    
-                    if(System.IO.File.Exists(oldFilePath))
-                    {
-                        System.IO.File.Delete(oldFilePath);
+                        var oldFilePath = Path.Combine(wwwRoot, productVM.product.ImageUrl.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
                     }
-                    }
-                    using(var filestream =new FileStream(filepath,FileMode.Create))
+                    using (var filestream = new FileStream(filepath, FileMode.Create))
                     {
                         file.CopyTo(filestream);
                     }
                     productVM.product.ImageUrl = @"\Images\Products\" + filename;
-                    
+
                 }
-                if(productVM.product.Id == 0) {
-                _db.Product.Create(productVM.product);
-                _db.save();
-                TempData["success"] = "Product Added Succesfully";
+                if (productVM.product.Id == 0)
+                {
+                    _db.Product.Create(productVM.product);
+                    _db.save();
+                    TempData["success"] = "Product Added Succesfully";
                 }
                 else
                 {
