@@ -9,17 +9,20 @@ namespace Webapp.Controllers
     public class CategoryController : Controller
     {
         /* private readonly ApplicationDbContext _db;*/
-        private readonly ICategoryRepository _db;
+        /*private readonly ICategoryRepository _db;*/
+        private readonly IUnitOfWork _db;
         /*public CategoryController(ApplicationDbContext db)*/
 
-        public CategoryController(ICategoryRepository db)
+        /*public CategoryController(ICategoryRepository db)*/
+        public CategoryController(IUnitOfWork db)
         {
             _db = db;
         }
         public IActionResult Index()
         {
             /*IEnumerable<CategoryModel> categories = _db.Categories;*/
-            IEnumerable<CategoryModel> categories = _db.GetAll();
+            /*IEnumerable<CategoryModel> categories = _db.GetAll();*/
+            IEnumerable<CategoryModel> categories =_db.Category.GetAll();
 
             return View(categories);
         }
@@ -39,7 +42,7 @@ namespace Webapp.Controllers
                 }
                 /*_db.Categories.Add(categoryObj);
                 _db.SaveChanges();*/
-                _db.Create(categoryObj);
+                _db.Category.Create(categoryObj);
                 _db.save();
                 TempData["success"] = "Category Added Successfully";
                 return RedirectToAction("Index");
@@ -53,7 +56,7 @@ namespace Webapp.Controllers
         public IActionResult UpdateCategory( int id) 
         {
             /*CategoryModel categoryObj =_db.Categories.Find(id);*/
-            CategoryModel categoryObj = _db.FirstOrDefault(u=>u.CategoryId==id);
+            CategoryModel categoryObj = _db.Category.FirstOrDefault(u=>u.CategoryId==id);
 
             return View(categoryObj);
         }
@@ -64,7 +67,7 @@ namespace Webapp.Controllers
             {
                 /*_db.Categories.Update(categoryObj);
                 _db.SaveChanges();*/
-                _db.Update(categoryObj);
+                _db.Category.Update(categoryObj);
                 _db.save();
                 TempData["Success"] = "Category Updated successfully";
                 return RedirectToAction("Index");
@@ -79,14 +82,14 @@ namespace Webapp.Controllers
         public IActionResult DeleteCategory(int id)
         {
             /*CategoryModel categoryObj = _db.Categories.Find(id);*/
-            CategoryModel categoryObj = _db.FirstOrDefault(u=>u.CategoryId==id);
+            CategoryModel categoryObj = _db.Category.FirstOrDefault(u=>u.CategoryId==id);
             return View(categoryObj);
         }
         [HttpPost]
         [ActionName("DeleteCategory")]
         public IActionResult Delete_Category(int id)
         {
-            CategoryModel categoryObj = _db.FirstOrDefault(u => u.CategoryId == id);
+            CategoryModel categoryObj = _db.Category.FirstOrDefault(u => u.CategoryId == id);
             if (id == 0)
             {
                 return NotFound();
@@ -94,7 +97,7 @@ namespace Webapp.Controllers
             }
             else
             {
-                _db.Delete(categoryObj);
+                _db.Category.Delete(categoryObj);
                 _db.save();
                 TempData["Success"] = "Category Removed successfully";
                 return RedirectToAction("Index");

@@ -1,0 +1,43 @@
+﻿@model ProductViewModel
+
+<h1>
+    @(Model.product.Id ==0?"Add New Product":"Update Product")
+</h1>
+<form class="w-75 m-auto shadow-lg p-5" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="product.Id"/>
+    <input type="hidden" asp-for="product.ImageUrl" />
+    <div class="form-floating mb-2">
+        <input asp-for="product.Name" class="form-control" />
+        <label asp-for="product.Name"></label>
+        <span asp-validation-for="product.Name"></span>
+    </div>
+    <div class="form-floating mb-2">
+        <input asp-for="product.Price" class="form-control" />
+        <label asp-for="product.Price"></label>
+        <span asp-validation-for="product.Price"></span>
+    </div>
+    <div class="form-floating mb-2">
+        <textarea asp-for="product.Description" class="form-control" style="height:125px"></textarea>
+        <label asp-for="product.Description"></label>
+        <span asp-validation-for="product.Description"></span>
+    </div>
+    <div class="form-floating mb-2">
+        <input asp-for="product.Stock" class="form-control" />
+        <label asp-for="product.Stock"></label>
+        <span asp-validation-for="product.Stock"></span>
+    </div>
+    <div class="form-floating mb-2">
+        <select asp-for="product.CategoryID" class="form-control" asp-items="@Model.categoryList"></select>
+        <label asp-for="product.Category"></label>
+
+    </div>
+    <img src=@Model.product.ImageUrl alt=@Model.product.Name style="height:150px" />
+    <div class="form-floating mb-2">
+        <input type="file" class="form-control" name="file" placeholder="name" />
+        <label asp-for="product.ImageUrl"></label>
+        
+    </div>
+    <button class="btn btn-success w-100">
+        @(Model.product.Id ==0 ?"Add New Product":"Update New Product")
+        </button>
+</form>

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Products";
+    int count = 1;
+}
+
+<h1>Products</h1>
+
+<a class="btn btn-success" asp-controller="Product" asp-action="UpsertProduct">Add New Products</a>
+<div>
+    @TempData["success"]
+</div>
+<br />
+
+<table class="table w-50 text-center m-auto">
+    <thead class="table-dark">
+        <tr>
+            <td>S.No</td>
+            <td>Image Url</td>
+            <td colspan="2">Product Name</td>
+            <td>Price</td>
+            <td>Description</td>
+            <td>Stock</td>
+
+
+            <td>Category</td>
+            <td>Action</td>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td>@(count++)</td>
+                <td>@obj.ImageUrl</td>
+                <td>@obj.Name</td>
+                <td>@obj.Price</td>
+                <td>@obj.Description</td>
+                <td>@obj.Stock</td>
+                <td>@obj.Category.CategoryName</td>
+
+
+
+                <td>
+                    <div class="btn-group">
+                        <a asp-controller="Product" asp-action="UpsertProduct" asp-route-id=@obj.Id class="btn btn-warning">Update</a>
+                        <form asp-action="DeleteProduct" asp-route-id=@obj.Id method="post">
+                            <button class="btn btn-danger" onclick="return confirm('Are you Sure?')">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    toastr.success(TempData["Success"])
+</script>

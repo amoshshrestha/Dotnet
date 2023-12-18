@@ -9,13 +9,13 @@ namespace Webapp.data.Repository
         private readonly ApplicationDbContext _db;
         public CategoryRepository(ApplicationDbContext db):base(db)
         {
-            
 
+            _db = db;
         }
 
         public void Update(CategoryModel categoryObj)
         {
-            _db.Update(categoryObj);
+            _db.Categories.Update(categoryObj);
         }
     }
 }

@@ -28,19 +28,33 @@ namespace Webapp.data.Repository
             _dbSet.RemoveRange(entities);
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
         {
             IQueryable<T> query = _dbSet;
             if(filter != null)
             {
                 query =query.Where(filter);
             }
+            if(includeProperties != null)
+            {
+                query = query.Include(includeProperties);
+            }
             return query;
         }
 
-        public T FirstOrDefault(Expression<Func<T,bool> > expr)
+        public T FirstOrDefault(Expression<Func<T,bool> > expr, string? includeProperties = null)
         {
-            return _dbSet.FirstOrDefault(expr);
+            IQueryable<T> query = _dbSet;
+            if (expr != null)
+            {
+                query = query.Where(expr);
+            }
+            if (includeProperties != null)
+            {
+                query = query.Include(includeProperties);
+            }
+            return query.FirstOrDefault();
+
         }
 
        

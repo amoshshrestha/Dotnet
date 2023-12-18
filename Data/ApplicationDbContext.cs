@@ -8,6 +8,8 @@ namespace Webapp.data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public DbSet<CategoryModel> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
