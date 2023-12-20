@@ -6,9 +6,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Models;
 using Webapp.Models;
 
-namespace Models
+namespace Webapp.Models
 {
     public class ShoppingCart
     {
