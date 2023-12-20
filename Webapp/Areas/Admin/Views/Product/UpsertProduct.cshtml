@@ -17,7 +17,7 @@
         <span asp-validation-for="product.Price"></span>
     </div>
     <div class="form-floating mb-2">
-        <textarea asp-for="product.Description" class="form-control" style="height:125px"></textarea>
+        <textarea id="mytextarea" asp-for="product.Description" class="form-control" style="height:125px"></textarea>
         <label asp-for="product.Description"></label>
         <span asp-validation-for="product.Description"></span>
     </div>
@@ -41,3 +41,12 @@
         @(Model.product.Id ==0 ?"Add New Product":"Update New Product")
         </button>
 </form>
+
+        @section Scripts{
+    
+    <script>
+        tinymce.init({
+            selector: '#mytextarea'
+        });
+    </script>
+        }

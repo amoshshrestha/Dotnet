@@ -14,7 +14,7 @@
                 <div class="card-body">
                     <h5 class="card-title">@item.Name</h5>
                     <h6>Rs.@item.Price</h6>
-                    <button class="btn btn-warning">View Detials</button>
+                    <a asp-action="Product" asp-route-productId="@item.Id" class="btn btn-warning">View Detials</a>
                </div>
             </div>
         </div>

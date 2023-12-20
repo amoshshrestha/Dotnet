@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Mvc;
+using Models;
 using System.Diagnostics;
 using Webapp.data.Repository.IRepository;
 using Webapp.Models;
@@ -23,6 +25,15 @@ namespace Webapp.Controllers
             return View(products);
         }
 
+        public IActionResult Product(int productId)
+        {
+            ShoppingCart cartObj = new()
+            { 
+                Product=_db.Product.FirstOrDefault(u=>u.Id==productId,"Category"),
+                    Quantity=1
+            };
+            return View(cartObj);
+        }
         public IActionResult Privacy()
         {
             return View();

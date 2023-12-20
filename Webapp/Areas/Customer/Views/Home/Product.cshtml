@@ -1,0 +1,29 @@
+﻿@model ShoppingCart
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="p-5">
+    <a asp-action="Index">Go Back....</a>
+    <div class="card">
+        <div class="card-header bg-dark text-white p-5 text-center">@Model.Name</div>
+        <div class="card_body row">
+            <div class="col-md-6 p-5">
+
+            <img src="@Model.Product.ImageUrl" class="w-100" />
+            </div>
+            <div class="col-md-6 p-5 align-self-center">
+                <h3>@Model.Name</h3>
+                <h4>Rs.@Model.product.Price</h4>
+                <p class="h5"><b>Description:</b> @Model.Description</p>
+                <h4>In Stock :@Model.Stock</h4>
+                <div class="d-flex justify-content-between">
+                <h4>Quantity</h4>
+                <input type="number" />
+                </div>
+                <button class="btn btn-warning">Add To Cart</button>
+            </div>
+        </div>
+    </div>
+</div>
