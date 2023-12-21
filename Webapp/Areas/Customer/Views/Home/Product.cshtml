@@ -6,6 +6,9 @@
 *@
 @{
 }
+<form method="post" asp-controller="ShoppingCart" asp-action="AddToCart">
+    <input type="hidden" asp-for="@Model.productID" />
+
 <div class="p-5">
     <a asp-action="Index">Go Back....</a>
     <div class="card">
@@ -30,5 +33,6 @@
     </div>
 </div>
 
+</form>
 
 
