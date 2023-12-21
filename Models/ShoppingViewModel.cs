@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Webapp.Models;
 
-namespace Models
+namespace Webapp.Models
 {
     public class ShoppingViewModel
     {

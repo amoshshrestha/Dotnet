@@ -22,11 +22,17 @@ namespace Webapp.Areas.Customer.Controllers
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             string userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            ShoppingViewModel shoppingCart = new()
+            ShoppingViewModel shoppingCartVm = new()
             {
-                shoppingCarts = _db.ShoppingCart.GetAll(u => u.UserID == userId)
+                shoppingCarts = _db.ShoppingCart.GetAll(u => u.UserID == userId,"Product").ToList(),
             };
-            return View(shoppingCart);
+            double total = 0;
+            foreach(var item in shoppingCartVm.shoppingCarts)
+            {
+                total += item.Quantity * item.Product.Price;
+
+            }
+            return View(shoppingCartVm);
         }
 
         [HttpPost]
@@ -52,6 +58,49 @@ namespace Webapp.Areas.Customer.Controllers
             }
 
 
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public IActionResult Decrease(int productId)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            string userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var shoppingCart= _db.ShoppingCart.FirstOrDefault(u=>u.UserID == userId&& u.productID==productId);
+            if(shoppingCart.Quantity == 1) 
+            {
+                _db.ShoppingCart.Delete(shoppingCart);
+                _db.save();
+                TempData["success"] = "Items removed";
+
+            }
+            else
+            {
+                shoppingCart.Quantity--;
+                _db.ShoppingCart.Update(shoppingCart);
+                _db.save();
+                TempData["success"] = "Quantity Decreased";
+            }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public IActionResult Increase(int productId)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            string userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var shoppingCart = _db.ShoppingCart.FirstOrDefault(u => u.UserID == userId && u.productID == productId);
+            if (shoppingCart.Quantity == shoppingCart.Product.Stock)
+            {
+                TempData["error"] = "Items Quantity reached maximum";
+                
+
+            }
+            else
+            {
+                shoppingCart.Quantity++;
+                /*_db.ShoppingCart.Update(shoppingCart);*/
+                _db.save();
+                TempData["success"] = "Quantity Increased";
+            }
             return RedirectToAction("Index");
         }
     }

@@ -25,7 +25,7 @@
                 <h4>In Stock :@Model.Product.Stock</h4>
                 <div class="d-flex justify-content-between">
                     <h4>Quantity</h4>
-                    <input type="number" />
+                    <input type="number" asp-for="@Model.Quantity" />
                 </div>
                 <button class="btn btn-warning">Add To Cart</button>
             </div>
